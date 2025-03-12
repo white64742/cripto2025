@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoX - The Future of Finance</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        header {
+            padding: 50px 20px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background: #ff4081;
+            color: white;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        #countdown {
+            font-size: 24px;
+            margin: 20px 0;
+            animation: slideIn 1.5s ease-in-out;
+        }
+        #timer {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        footer {
+            padding: 20px;
+            background: #222;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bg"></canvas>
+    <header>
+        <h1>CryptoX - The Future of Decentralized Finance</h1>
+        <p>Join the revolution and invest in the next big cryptocurrency.</p>
+        <button id="connectWallet">Connect Wallet</button>
+    </header>
+    
+    <section id="countdown">
+        <h2>ICO Launching In:</h2>
+        <div id="timer">00:00:00</div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 CryptoX. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Countdown Timer
+        function startCountdown(duration) {
+            const timerElement = document.getElementById("timer");
+            let timeLeft = duration;
+            setInterval(() => {
+                const hours = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
+                const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
+                const seconds = String(timeLeft % 60).padStart(2, '0');
+                timerElement.textContent = `${hours}:${minutes}:${seconds}`;
+                if (timeLeft > 0) timeLeft--;
+            }, 1000);
+        }
+        startCountdown(86400); // 24 hours countdown
+
+        // Three.js Background Animation
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('bg')});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshStandardMaterial({ color: 0xff4081, wireframe: true });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+
+        const light = new THREE.PointLight(0xffffff);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+
+        camera.position.z = 50;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
